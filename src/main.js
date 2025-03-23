@@ -168,6 +168,7 @@ const LoginPage = () => `
 
 const ProfilePage = () => {
   const user = JSON.parse(localStorage.getItem("user"));
+  console.log(user);
   return `
     <div class="bg-gray-100 min-h-screen flex justify-center">
       <div class="max-w-md w-full">
@@ -203,7 +204,7 @@ const ProfilePage = () => {
                   type="email"
                   id="email"
                   name="email"
-                  value="hong@example.com"
+                  value="${user.email ? user.email : ""}"
                   class="w-full p-2 border rounded"
                 />
               </div>
@@ -218,13 +219,11 @@ const ProfilePage = () => {
                   name="bio"
                   rows="4"
                   class="w-full p-2 border rounded"
-                >
-                  안녕하세요, 항해플러스에서 열심히 공부하고 있는 홍길동입니다.
-                </textarea>
+                >${user.bio ? user.bio : ""}</textarea>
               </div>
               <button
                 type="submit"
-                class="w-full bg-blue-600 text-white p-2 rounded font-bold"
+                class="profile-update-button w-full bg-blue-600 text-white p-2 rounded font-bold"
               >
                 프로필 업데이트
               </button>
@@ -243,7 +242,7 @@ const loginAction = (e) => {
   const userName = document.getElementById("login-user").value;
   const password = document.getElementById("login-password").value;
   if (userName && password) {
-    localStorage.setItem("user", JSON.stringify({ userName, password }));
+    localStorage.setItem("user", JSON.stringify({ userName }));
     navigate("/profile");
   } else if (!userName) {
     alert("이메일을 입력해주세요.");
@@ -255,6 +254,18 @@ const loginAction = (e) => {
 const logoutAction = () => {
   localStorage.removeItem("user");
   navigate("/login");
+};
+
+const profileUpdateAction = () => {
+  const user = JSON.parse(localStorage.getItem("user"));
+  const userName = document.getElementById("username").value;
+  const email = document.getElementById("email").value;
+  const bio = document.getElementById("bio").value;
+  localStorage.setItem(
+    "user",
+    JSON.stringify({ ...user, userName, email, bio }),
+  );
+  navigate("/profile");
 };
 
 const routes = {
@@ -298,5 +309,10 @@ document.addEventListener("click", (e) => {
   if (e.target.matches(".logout-button")) {
     e.preventDefault();
     logoutAction();
+  }
+
+  if (e.target.matches(".profile-update-button")) {
+    e.preventDefault();
+    profileUpdateAction();
   }
 });
