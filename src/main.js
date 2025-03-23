@@ -12,7 +12,7 @@ const Header = () => {
       <h1 class="text-2xl font-bold">항해플러스</h1>
     </header>
 
-    <nav class="bg-white shadow-md p-2 sticky top-14">
+    <nav role="navigation" class="bg-white shadow-md p-2 sticky top-14">
       <ul class="flex justify-around">
         <li><a href="/" class="${currentPath === "/" ? "text-blue-600" : "text-gray-600"}">홈</a></li>
         ${loggedInNav}
@@ -304,26 +304,26 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 document.addEventListener("click", (e) => {
-  e.preventDefault();
-
   if (e.target.matches("a")) {
+    e.preventDefault();
     const path = e.target.getAttribute("href");
     navigate(path);
   }
 
   if (e.target.matches("#logout")) {
+    e.preventDefault();
     logoutAction();
   }
 });
 
 document.addEventListener("submit", (e) => {
-  e.preventDefault();
-
   if (e.target.matches("#login-form")) {
+    e.preventDefault();
     loginAction(e);
   }
 
   if (e.target.matches("#profile-form")) {
+    e.preventDefault();
     profileUpdateAction();
   }
 });
