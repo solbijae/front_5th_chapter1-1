@@ -1,11 +1,10 @@
 // Header
 const Header = () => {
   const user = JSON.parse(localStorage.getItem("user"));
-  console.log(user);
   const isLoggedIn = user ? true : false;
   const loggedInNav = isLoggedIn
     ? `<li><a href="/profile" class="text-gray-600">프로필</a></li>
-       <li><a href="#" class="text-gray-600">로그아웃</a></li>`
+       <li><a href="#" class="logout-button text-gray-600">로그아웃</a></li>`
     : `<li><a href="/login" class="text-gray-600">로그인</a></li>`;
   return `
     <header class="bg-blue-600 text-white p-4 sticky top-0">
@@ -154,7 +153,7 @@ const LoginPage = () => `
         <div class="mb-6">
           <input type="password" placeholder="비밀번호" id="login-password" class="w-full p-2 border rounded">
         </div>
-        <button type="submit" class="w-full bg-blue-600 text-white p-2 rounded font-bold">로그인</button>
+        <button type="submit" class="login-button w-full bg-blue-600 text-white p-2 rounded font-bold">로그인</button>
       </form>
       <div class="mt-4 text-center">
         <a href="#" class="text-blue-600 text-sm">비밀번호를 잊으셨나요?</a>
@@ -253,6 +252,11 @@ const loginAction = (e) => {
   }
 };
 
+const logoutAction = () => {
+  localStorage.removeItem("user");
+  navigate("/login");
+};
+
 const routes = {
   "/": HomePage,
   "/profile": ProfilePage,
@@ -278,9 +282,6 @@ const render = () => {
 window.addEventListener("popstate", render);
 document.addEventListener("DOMContentLoaded", function () {
   render();
-
-  const loginButton = document.querySelector("button[type='submit']");
-  loginButton.addEventListener("click", loginAction);
 });
 
 document.addEventListener("click", (e) => {
@@ -288,5 +289,14 @@ document.addEventListener("click", (e) => {
     e.preventDefault();
     const path = e.target.getAttribute("href");
     navigate(path);
+  }
+
+  if (e.target.matches(".login-button")) {
+    loginAction(e);
+  }
+
+  if (e.target.matches(".logout-button")) {
+    e.preventDefault();
+    logoutAction();
   }
 });
