@@ -228,9 +228,35 @@ const ProfilePage = () => `
   </div>
 `;
 
-document.body.innerHTML = `
-  ${HomePage()}
-  ${ProfilePage()}
-  ${LoginPage()}
-  ${NotFoundPage()}
-`;
+const routes = {
+  "/": HomePage,
+  "/profile": ProfilePage,
+  "/login": LoginPage,
+};
+
+const navigate = (path) => {
+  window.history.pushState({}, "", path);
+  render();
+};
+
+const App = () => {
+  const path = window.location.pathname;
+  const PageComponent = routes[path] || NotFoundPage;
+  return PageComponent();
+};
+
+const render = () => {
+  const root = document.getElementById("root");
+  root.innerHTML = App();
+};
+
+window.addEventListener("popstate", render);
+document.addEventListener("DOMContentLoaded", render);
+
+document.addEventListener("click", (e) => {
+  if (e.target.matches("a")) {
+    e.preventDefault();
+    const path = e.target.getAttribute("href");
+    navigate(path);
+  }
+});
