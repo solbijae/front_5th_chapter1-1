@@ -165,7 +165,8 @@ const LoginPage = () => `
 `;
 
 const ProfilePage = () => {
-  const user = JSON.parse(localStorage.getItem("user"));
+  const user = JSON.parse(localStorage.getItem("user") || "{}");
+
   return `
     <div class="bg-gray-100 min-h-screen flex justify-center">
       <div class="max-w-md w-full">
@@ -176,7 +177,7 @@ const ProfilePage = () => {
             <h2 class="text-2xl font-bold text-center text-blue-600 mb-8">
               내 프로필
             </h2>
-            <form>
+            <form id="profile-form">
               <div class="mb-4">
                 <label
                   for="username"
@@ -266,9 +267,16 @@ const profileUpdateAction = () => {
 };
 
 const routes = {
-  "/": HomePage,
-  "/profile": ProfilePage,
-  "/login": LoginPage,
+  "/": () => HomePage(),
+  "/login": () => LoginPage(),
+  "/profile": () => {
+    const user = JSON.parse(localStorage.getItem("user") || "{}");
+    if (!user.username) {
+      navigate("/login");
+      return LoginPage();
+    }
+    return ProfilePage();
+  },
 };
 
 const navigate = (path) => {
@@ -278,7 +286,7 @@ const navigate = (path) => {
 
 const App = () => {
   const path = window.location.pathname;
-  const PageComponent = routes[path] || NotFoundPage;
+  const PageComponent = routes[path] || (() => NotFoundPage());
   return PageComponent();
 };
 
@@ -303,15 +311,16 @@ document.addEventListener("click", (e) => {
   if (e.target.matches("#logout")) {
     logoutAction();
   }
-
-  if (e.target.matches(".profile-update-button")) {
-    profileUpdateAction();
-  }
 });
 
 document.addEventListener("submit", (e) => {
+  e.preventDefault();
+
   if (e.target.matches("#login-form")) {
-    e.preventDefault();
     loginAction(e);
+  }
+
+  if (e.target.matches("#profile-form")) {
+    profileUpdateAction();
   }
 });
