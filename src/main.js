@@ -4,7 +4,7 @@ const Header = () => {
   const isLoggedIn = user ? true : false;
   const currentPath = window.location.pathname;
   const loggedInNav = isLoggedIn
-    ? `<li><a href="/profile" class="${currentPath === "/profile" ? "text-blue-600" : "text-gray-600"}">프로필</a></li>
+    ? `<li><a href="/profile" role="link" class="${currentPath === "/profile" ? "text-blue-600" : "text-gray-600"}">프로필</a></li>
        <li><a href="#" id="logout">로그아웃</a></li>`
     : `<li><a href="/login" class="${currentPath === "/login" ? "text-blue-600" : "text-gray-600"}">로그인</a></li>`;
   return `
@@ -32,7 +32,7 @@ const HomePage = () => `
     <div class="max-w-md w-full">
       ${Header()}
 
-      <main class="p-4">
+      <main class="p-4 role="main">
         <div class="mb-4 bg-white rounded-lg shadow p-4">
           <textarea class="w-full p-2 border rounded" placeholder="무슨 생각을 하고 계신가요?"></textarea>
           <button class="mt-2 bg-blue-600 text-white px-4 py-2 rounded">게시</button>
@@ -128,7 +128,7 @@ const HomePage = () => `
 `;
 
 const NotFoundPage = () => `
-  <main class="bg-gray-100 flex items-center justify-center min-h-screen">
+  <main class="bg-gray-100 flex items-center justify-center min-h-screen" role="main">
     <div class="bg-white p-8 rounded-lg shadow-md w-full text-center" style="max-width: 480px">
       <h1 class="text-2xl font-bold text-blue-600 mb-4">항해플러스</h1>
       <p class="text-4xl font-bold text-gray-800 mb-4">404</p>
@@ -175,7 +175,7 @@ const ProfilePage = () => {
       <div class="max-w-md w-full">
         ${Header()}
 
-        <main class="p-4">
+        <main class="p-4" role="main">
           <div class="bg-white p-8 rounded-lg shadow-md">
             <h2 class="text-2xl font-bold text-center text-blue-600 mb-8">
               내 프로필
