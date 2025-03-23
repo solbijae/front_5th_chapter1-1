@@ -5,7 +5,7 @@ const Header = () => {
   const currentPath = window.location.pathname;
   const loggedInNav = isLoggedIn
     ? `<li><a href="/profile" class="${currentPath === "/profile" ? "text-blue-600" : "text-gray-600"}">프로필</a></li>
-       <li><a href="#" class="logout-button">로그아웃</a></li>`
+       <li><a href="#" id="logout">로그아웃</a></li>`
     : `<li><a href="/login" class="${currentPath === "/login" ? "text-blue-600" : "text-gray-600"}">로그인</a></li>`;
   return `
     <header class="bg-blue-600 text-white p-4 sticky top-0">
@@ -147,29 +147,25 @@ const LoginPage = () => `
   <main class="bg-gray-100 flex items-center justify-center min-h-screen">
     <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
       <h1 class="text-2xl font-bold text-center text-blue-600 mb-8">항해플러스</h1>
-      <form>
+      <form id="login-form">
         <div class="mb-4">
-          <input type="text" placeholder="이메일 또는 전화번호" id="login-user" class="w-full p-2 border rounded">
+          <input type="text" placeholder="사용자 이름" id="username" class="w-full p-2 border rounded">
         </div>
         <div class="mb-6">
-          <input type="password" placeholder="비밀번호" id="login-password" class="w-full p-2 border rounded">
+          <input type="password" placeholder="비밀번호" id="userpassword" class="w-full p-2 border rounded">
         </div>
-        <button type="submit" class="login-button w-full bg-blue-600 text-white p-2 rounded font-bold">로그인</button>
+        <button type="submit" class="w-full bg-blue-600 text-white p-2 rounded font-bold">로그인</button>
       </form>
       <div class="mt-4 text-center">
         <a href="#" class="text-blue-600 text-sm">비밀번호를 잊으셨나요?</a>
       </div>
       <hr class="my-6">
-      <div class="text-center">
-        <button class="bg-green-500 text-white px-4 py-2 rounded font-bold">새 계정 만들기</button>
-      </div>
     </div>
   </main>
 `;
 
 const ProfilePage = () => {
   const user = JSON.parse(localStorage.getItem("user"));
-  console.log(user);
   return `
     <div class="bg-gray-100 min-h-screen flex justify-center">
       <div class="max-w-md w-full">
@@ -191,7 +187,7 @@ const ProfilePage = () => {
                   type="text"
                   id="username"
                   name="username"
-                  ${user.userName ? `value="${user.userName}"` : ""}
+                  ${user.username ? `value="${user.username}"` : ""}
                   class="w-full p-2 border rounded"
                 />
               </div>
@@ -240,16 +236,16 @@ const ProfilePage = () => {
 
 const loginAction = (e) => {
   e.preventDefault();
-  const userName = document.getElementById("login-user").value;
-  const password = document.getElementById("login-password").value;
-  if (userName && password) {
-    localStorage.setItem("user", JSON.stringify({ userName }));
-    navigate("/profile");
-  } else if (!userName) {
-    alert("이메일을 입력해주세요.");
-  } else if (!password) {
-    alert("비밀번호를 입력해주세요.");
-  }
+  const username = document.getElementById("username").value;
+  localStorage.setItem(
+    "user",
+    JSON.stringify({
+      username: username,
+      email: "",
+      bio: "",
+    }),
+  );
+  navigate("/profile");
 };
 
 const logoutAction = () => {
@@ -259,12 +255,12 @@ const logoutAction = () => {
 
 const profileUpdateAction = () => {
   const user = JSON.parse(localStorage.getItem("user"));
-  const userName = document.getElementById("username").value;
+  const username = document.getElementById("username").value;
   const email = document.getElementById("email").value;
   const bio = document.getElementById("bio").value;
   localStorage.setItem(
     "user",
-    JSON.stringify({ ...user, userName, email, bio }),
+    JSON.stringify({ ...user, username, email, bio }),
   );
   navigate("/profile");
 };
@@ -297,23 +293,25 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 document.addEventListener("click", (e) => {
+  e.preventDefault();
+
   if (e.target.matches("a")) {
-    e.preventDefault();
     const path = e.target.getAttribute("href");
     navigate(path);
   }
 
-  if (e.target.matches(".login-button")) {
-    loginAction(e);
-  }
-
-  if (e.target.matches(".logout-button")) {
-    e.preventDefault();
+  if (e.target.matches("#logout")) {
     logoutAction();
   }
 
   if (e.target.matches(".profile-update-button")) {
-    e.preventDefault();
     profileUpdateAction();
+  }
+});
+
+document.addEventListener("submit", (e) => {
+  if (e.target.matches("#login-form")) {
+    e.preventDefault();
+    loginAction(e);
   }
 });
