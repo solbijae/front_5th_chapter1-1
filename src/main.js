@@ -1,6 +1,6 @@
 const store = {
   state: {
-    user: JSON.parse(localStorage.getItem("user") || "{}"),
+    user: JSON.parse(localStorage.getItem("user") || "{}"), // TODO: "null" 로 변경
   },
 
   getUser() {
@@ -315,9 +315,7 @@ const render = () => {
 };
 
 window.addEventListener("popstate", render);
-document.addEventListener("DOMContentLoaded", function () {
-  render();
-});
+document.addEventListener("DOMContentLoaded", render);
 
 document.addEventListener("click", (e) => {
   if (e.target.matches("a")) {
