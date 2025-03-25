@@ -10,6 +10,7 @@ export default defineConfig({
     base: "/front_5th_chapter1-1/",
   },
   build: {
+    assetsDir: "assets",
     rollupOptions: {
       input: resolve(__dirname, "index.html"),
     },
