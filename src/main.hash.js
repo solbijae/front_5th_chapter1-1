@@ -26,7 +26,7 @@ const Header = () => {
   const isLoggedIn = store.isLoggedIn();
   const currentPath = window.location.hash.slice(1);
   const loggedInNav = isLoggedIn
-    ? `<li><a href="#/profile" role="link" class="${currentPath === "#/profile" ? "text-blue-600 font-bold" : "text-gray-600"}">프로필</a></li>
+    ? `<li><a href="#/profile" role="link" class="${currentPath === "/profile" ? "text-blue-600 font-bold" : "text-gray-600"}">프로필</a></li>
        <li><a href="#" id="logout">로그아웃</a></li>`
     : `<li><a href="#/login" class="${currentPath === "/login" ? "text-blue-600 font-bold" : "text-gray-600"}">로그인</a></li>`;
   return `
