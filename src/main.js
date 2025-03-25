@@ -287,7 +287,13 @@ const profileUpdateAction = () => {
 
 const routes = {
   "/": () => HomePage(),
-  "/login": () => LoginPage(),
+  "/login": () => {
+    if (store.isLoggedIn()) {
+      navigate("/");
+      return HomePage();
+    }
+    return LoginPage();
+  },
   "/profile": () => {
     if (!store.isLoggedIn()) {
       navigate("/login");
