@@ -11,10 +11,7 @@ export default defineConfig({
   },
   build: {
     rollupOptions: {
-      input:
-        process.env.NODE_ENV === "test"
-          ? resolve(__dirname, "index.html")
-          : resolve(__dirname, "index.hash.html"),
+      input: resolve(__dirname, "index.html"),
     },
   },
 });
