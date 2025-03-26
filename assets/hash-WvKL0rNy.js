@@ -1,4 +1,4 @@
-import"./modulepreload-polyfill-B5Qt9EMX.js";const s={state:{user:JSON.parse(localStorage.getItem("user")||"{}")},getUser(){return this.state.user},setUser(t){this.state.user=t},clearUser(){this.state.user={},localStorage.removeItem("user")},isLoggedIn(){return!!this.state.user.username}},d=()=>{const t=s.isLoggedIn(),e=window.location.hash.slice(1);return`
+import"./modulepreload-polyfill-B5Qt9EMX.js";const s={state:{user:JSON.parse(localStorage.getItem("user")||"{}")},getUser(){return this.state.user},setUser(t){this.state.user=t,localStorage.setItem("user",JSON.stringify(t))},clearUser(){this.state.user={},localStorage.removeItem("user")},isLoggedIn(){return!!this.state.user.username}},i=()=>{const t=s.isLoggedIn(),e=window.location.hash.slice(1);return`
     <header class="bg-blue-600 text-white p-4 sticky top-0">
       <h1 class="text-2xl font-bold">항해플러스</h1>
     </header>
@@ -10,14 +10,14 @@ import"./modulepreload-polyfill-B5Qt9EMX.js";const s={state:{user:JSON.parse(loc
        <li><a href="#" id="logout">로그아웃</a></li>`:`<li><a href="#/login" class="${e==="/login"?"text-blue-600 font-bold":"text-gray-600"}">로그인</a></li>`}
       </ul>
     </nav>
-  `},i=()=>`
+  `},d=()=>`
   <footer class="bg-gray-200 p-4 text-center">
     <p>&copy; 2024 항해플러스. All rights reserved.</p>
   </footer>
 `,a=()=>`
   <div class="bg-gray-100 min-h-screen flex justify-center">
     <div class="max-w-md w-full">
-      ${d()}
+      ${i()}
 
       <main class="p-4 role="main">
         <div class="mb-4 bg-white rounded-lg shadow p-4">
@@ -109,7 +109,7 @@ import"./modulepreload-polyfill-B5Qt9EMX.js";const s={state:{user:JSON.parse(loc
         </div>
       </main>
 
-      ${i()}
+      ${d()}
     </div>
   </div>
 `,u=()=>`
@@ -151,7 +151,7 @@ import"./modulepreload-polyfill-B5Qt9EMX.js";const s={state:{user:JSON.parse(loc
 `,b=()=>{const t=s.getUser();return`
     <div class="bg-gray-100 min-h-screen flex justify-center">
       <div class="max-w-md w-full">
-        ${d()}
+        ${i()}
 
         <main class="p-4" role="main">
           <div class="bg-white p-8 rounded-lg shadow-md">
@@ -210,7 +210,7 @@ import"./modulepreload-polyfill-B5Qt9EMX.js";const s={state:{user:JSON.parse(loc
           </div>
         </main>
 
-        ${i()}
+        ${d()}
       </div>
     </div>
   `},m=t=>{t.preventDefault();const e=document.getElementById("username").value;s.setUser({username:e,email:"",bio:""}),l("/profile")},p=()=>{s.clearUser(),l("/login")},g=()=>{const t=s.getUser(),e=document.getElementById("username").value,o=document.getElementById("email").value,c=document.getElementById("bio").value;s.setUser({...t,username:e,email:o,bio:c}),l("/profile")},f={"/":()=>a(),"/login":()=>s.isLoggedIn()?(l("/"),a()):n(),"/profile":()=>s.isLoggedIn()?b():(l("/login"),n())},l=t=>{window.location.hash=t},v=()=>{const t=window.location.hash.slice(1);return(f[t]||(()=>u()))()},r=()=>{const t=document.getElementById("root");t.innerHTML=v()};window.addEventListener("hashchange",function(){console.log("hashchange"),r()});document.addEventListener("DOMContentLoaded",r);document.addEventListener("click",t=>{if(t.target.matches("a")){t.preventDefault();const e=t.target.getAttribute("href");l(e)}t.target.matches("#logout")&&(t.preventDefault(),p())});document.addEventListener("submit",t=>{t.target.matches("#login-form")&&(t.preventDefault(),m(t)),t.target.matches("#profile-form")&&(t.preventDefault(),g())});
