@@ -8,7 +8,7 @@
     "dev": "vite",
     "dev:hash": "vite --open ./index.hash.html",
     "build": "vite build",
-    "postbuild": "cp dist/index.hash.html dist/hash/index.html",
+    "postbuild": "mkdir -p dist/hash && cp dist/index.hash.html dist/hash/index.html",
     "lint:fix": "eslint --fix",
     "prettier:write": "prettier --write ./src",
     "preview": "vite preview",
