@@ -10,6 +10,7 @@ const store = {
 
   setUser(user) {
     this.state.user = user;
+    localStorage.setItem("user", JSON.stringify(user));
   },
 
   clearUser() {
