@@ -1,29 +1,7 @@
-const store = {
-  state: {
-    user: JSON.parse(localStorage.getItem("user") || "{}"), // TODO: "null" 로 변경
-  },
-
-  getUser() {
-    return this.state.user;
-  },
-
-  setUser(user) {
-    this.state.user = user;
-    localStorage.setItem("user", JSON.stringify(user));
-  },
-
-  clearUser() {
-    this.state.user = {};
-    localStorage.removeItem("user");
-  },
-
-  isLoggedIn() {
-    return !!this.state.user.username;
-  },
-};
+import userStore from "./store/userStore";
 
 const Header = () => {
-  const isLoggedIn = store.isLoggedIn();
+  const isLoggedIn = userStore.isLoggedIn();
   const currentPath = window.location.pathname;
   const loggedInNav = isLoggedIn
     ? `<li><a href="/profile" role="link" class="${currentPath === "/profile" ? "text-blue-600 font-bold" : "text-gray-600"}">프로필</a></li>
@@ -190,7 +168,7 @@ const LoginPage = () => `
 `;
 
 const ProfilePage = () => {
-  const user = store.getUser();
+  const user = userStore.getUser();
 
   return `
     <div class="bg-gray-100 min-h-screen flex justify-center">
@@ -263,7 +241,7 @@ const ProfilePage = () => {
 const loginAction = (e) => {
   e.preventDefault();
   const username = document.getElementById("username").value;
-  store.setUser({
+  userStore.setUser({
     username: username,
     email: "",
     bio: "",
@@ -272,30 +250,30 @@ const loginAction = (e) => {
 };
 
 const logoutAction = () => {
-  store.clearUser();
+  userStore.clearUser();
   navigate("/login");
 };
 
 const profileUpdateAction = () => {
-  const user = store.getUser();
+  const user = userStore.getUser();
   const username = document.getElementById("username").value;
   const email = document.getElementById("email").value;
   const bio = document.getElementById("bio").value;
-  store.setUser({ ...user, username, email, bio });
+  userStore.setUser({ ...user, username, email, bio });
   navigate("/profile");
 };
 
 const routes = {
   "/": () => HomePage(),
   "/login": () => {
-    if (store.isLoggedIn()) {
+    if (userStore.isLoggedIn()) {
       navigate("/");
       return HomePage();
     }
     return LoginPage();
   },
   "/profile": () => {
-    if (!store.isLoggedIn()) {
+    if (!userStore.isLoggedIn()) {
       navigate("/login");
       return LoginPage();
     }
