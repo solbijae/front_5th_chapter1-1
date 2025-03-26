@@ -1,8 +1,8 @@
 import userStore from "./store/userStore";
-import HomePage from "./components/HomePage";
-import ProfilePage from "./components/ProfilePage";
-import NotFoundPage from "./components/NotFoundPage";
-import LoginPage from "./components/LoginPage";
+import Home from "./pages/Home";
+import Profile from "./pages/Profile";
+import NotFound from "./pages/NotFound";
+import Login from "./pages/Login";
 
 const loginAction = (e) => {
   e.preventDefault();
@@ -30,20 +30,20 @@ const profileUpdateAction = () => {
 };
 
 const routes = {
-  "/": () => HomePage(),
+  "/": () => Home(),
   "/login": () => {
     if (userStore.isLoggedIn()) {
       navigate("/");
-      return HomePage();
+      return Home();
     }
-    return LoginPage();
+    return Login();
   },
   "/profile": () => {
     if (!userStore.isLoggedIn()) {
       navigate("/login");
-      return LoginPage();
+      return Login();
     }
-    return ProfilePage();
+    return Profile();
   },
 };
 
@@ -54,7 +54,7 @@ const navigate = (path) => {
 
 const App = () => {
   const path = window.location.pathname;
-  const PageComponent = routes[path] || (() => NotFoundPage());
+  const PageComponent = routes[path] || (() => NotFound());
   return PageComponent();
 };
 

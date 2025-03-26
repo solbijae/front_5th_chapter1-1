@@ -1,8 +1,8 @@
-import Header from "./Header";
-import Footer from "./Footer";
-import PostList from "./PostList";
+import Header from "../components/Header";
+import Footer from "../components/Footer";
+import PostList from "../components/PostList";
 
-const HomePage = () => {
+const Home = () => {
   return `
   <div class="bg-gray-100 min-h-screen flex justify-center">
     <div class="max-w-md w-full">
@@ -25,4 +25,4 @@ const HomePage = () => {
   `;
 };
 
-export default HomePage;
+export default Home;
