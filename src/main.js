@@ -1,30 +1,9 @@
-import userStore from "./store/userStore";
 import { navigate, render } from "./router";
-
-const loginAction = (e) => {
-  e.preventDefault();
-  const username = document.getElementById("username").value;
-  userStore.setUser({
-    username: username,
-    email: "",
-    bio: "",
-  });
-  navigate("/profile");
-};
-
-const logoutAction = () => {
-  userStore.clearUser();
-  navigate("/login");
-};
-
-const profileUpdateAction = () => {
-  const user = userStore.getUser();
-  const username = document.getElementById("username").value;
-  const email = document.getElementById("email").value;
-  const bio = document.getElementById("bio").value;
-  userStore.setUser({ ...user, username, email, bio });
-  navigate("/profile");
-};
+import {
+  loginAction,
+  logoutAction,
+  profileUpdateAction,
+} from "./actions/userActions";
 
 window.addEventListener("popstate", render);
 document.addEventListener("DOMContentLoaded", render);
