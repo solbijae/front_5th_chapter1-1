@@ -63,7 +63,6 @@ const render = () => {
 };
 
 window.addEventListener("hashchange", function () {
-  console.log("hashchange");
   render();
 });
 document.addEventListener("DOMContentLoaded", render);
