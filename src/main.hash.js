@@ -12,12 +12,12 @@ const loginAction = (e) => {
     email: "",
     bio: "",
   });
-  hashNavigate("/profile");
+  navigate("/profile");
 };
 
 const logoutAction = () => {
   userStore.clearUser();
-  hashNavigate("/login");
+  navigate("/login");
 };
 
 const profileUpdateAction = () => {
@@ -26,28 +26,28 @@ const profileUpdateAction = () => {
   const email = document.getElementById("email").value;
   const bio = document.getElementById("bio").value;
   userStore.setUser({ ...user, username, email, bio });
-  hashNavigate("/profile");
+  navigate("/profile");
 };
 
 const routes = {
   "/": () => Home(),
   "/login": () => {
     if (userStore.isLoggedIn()) {
-      hashNavigate("/");
+      navigate("/");
       return Home();
     }
     return Login();
   },
   "/profile": () => {
     if (!userStore.isLoggedIn()) {
-      hashNavigate("/login");
+      navigate("/login");
       return Login();
     }
     return Profile();
   },
 };
 
-const hashNavigate = (path) => {
+const navigate = (path) => {
   window.location.hash = path;
 };
 
@@ -72,7 +72,7 @@ document.addEventListener("click", (e) => {
   if (e.target.matches("a")) {
     e.preventDefault();
     const path = e.target.getAttribute("href");
-    hashNavigate(path);
+    navigate(path);
   }
 
   if (e.target.matches("#logout")) {
